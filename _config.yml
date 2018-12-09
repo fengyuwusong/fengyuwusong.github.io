@@ -1,22 +1,67 @@
-# Hexo Configuration
-## Docs: https://hexo.io/docs/configuration.html
-## Source: https://github.com/hexojs/hexo/
+# 网站信息
+title: 风雨雾凇
+subtitle: 
+description: 
+keywords: 博客, 风雨雾凇
+author: 风雨雾凇
+language: zh
+timezone: Asia/Shanghai
+shortcut_icon: "http://pic.fengyuwusong.cn/avatar.png"
+favicon: "http://pic.fengyuwusong.cn/avatar.png"
+avatar: "http://pic.fengyuwusong.cn/avatar.png"
+motto: 业精于勤荒于嬉，形成于思毁于随
 
-# Site
-title: Hexo
-subtitle:
-description:
-keywords:
-author: John Doe
-language:
-timezone:
+# 页脚社交信息
+social:
+  - icon: fas fa-envelope
+    url: mailto:602766695@qq.com
+  - icon: fab fa-github
+    url: https://github.com/fengyuwusong
+  # - icon: fas fa-music
+    # url: https://music.163.com/#/user/home?id=63035382
 
-# URL
-## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+#  友链
+links:
+- name: xaoxuu's blog
+  avatar: https://img.vim-cn.com/ae/e5c96b80420c77773c920f999647ddb08f2c58.png
+  url: https://xaoxuu.com/blog/
+
+# 网站链接配置
+url: http://fengyuwsuong.cn
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
+
+# 导航栏
+nav_menu:
+  - name: 主页
+    icon: fas fa-home
+    url: https://fengyuwusong.cn/
+  # - name: 项目
+  #   icon: fas fa-flask
+  #   url: https://fengyuwusong.cn/projects/
+  - name: 博客
+    icon: fas fa-rss
+    url: /
+  - name: 归档
+    icon: fas fa-archive
+    url: archives/
+  - name: 关于
+    icon: fas fa-user
+    url: https://fengyuwusong.cn/about/
+
+# 评论系统设置
+valine:
+  enable: true # 如果你想用Valine评论系统，请设置enable为true
+  app_id:  4ostjPGgQz6dtae97OShmQBj-gzGzoHsz # 必填
+  app_key: vEFK2xQiAC3hKlgcL3wY0HGI # 必填
+  guest_info: nick,mail,link #valine comment header info
+  placeholder: 快来评论吧~ # valine comment input placeholder(like: Please leave your footprints )
+  avatar: mp # gravatar style https://valine.js.org/avatar
+  pageSize: 10 # comment list page size
+  verify: false # valine verify code (true/false)
+  notify: false # valine mail notify (true/false)
+  lang: zh-cn
 
 # Directory
 source_dir: source
@@ -70,15 +115,10 @@ time_format: HH:mm:ss
 per_page: 10
 pagination_dir: page
 
-# Extensions
-## Plugins: https://hexo.io/plugins/
-## Themes: https://hexo.io/themes/
-# theme: landscape
-# 修改主题为 material-x
+# 主题设置
 theme: material-x
 
-# Deployment
-## Docs: https://hexo.io/docs/deployment.html
+# 提交信息
 deploy:
   type: git
   repo: git@github.com:fengyuwusong/fengyuwusong.github.io.git
