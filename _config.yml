@@ -48,7 +48,7 @@ nav_menu:
     url: archives/
   - name: 关于
     icon: fas fa-user
-    url: https://fengyuwusong.cn/about/
+    url: https://fengyuwusong.cn/fengyuwusong
 
 # 评论系统设置
 valine:
@@ -123,6 +123,6 @@ deploy:
   type: git
   repo: git@github.com:fengyuwusong/fengyuwusong.github.io.git
   branch: master
-  message: first commit
+  message: 每日leetcode-无重复字符的最长子串
   name: fengyuwusong
   email: 602766695@qq.com
