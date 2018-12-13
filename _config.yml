@@ -123,6 +123,6 @@ deploy:
   type: git
   repo: git@github.com:fengyuwusong/fengyuwusong.github.io.git
   branch: master
-  message: 每日leetcode-无重复字符的最长子串
+  message: 机器学习入门(1)-pandas库的使用
   name: fengyuwusong
   email: 602766695@qq.com

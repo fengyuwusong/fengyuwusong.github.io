@@ -37,6 +37,8 @@ tags: [leetcode, 每日训练, 算法, 面试, 学习笔记]
 
 题目链接：[点击这里~](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
 
+<!--more-->
+
 ## 思路
 
 使用Hash表建立一个简单的滑动窗口，并尽量扩大滑动窗口的长度。
