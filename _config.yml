@@ -123,6 +123,6 @@ deploy:
   type: git
   repo: git@github.com:fengyuwusong/fengyuwusong.github.io.git
   branch: master
-  message: 机器学习入门(1)-pandas库的使用
+  message: 机器学习入门(2)-机器学习主要术语
   name: fengyuwusong
   email: 602766695@qq.com
