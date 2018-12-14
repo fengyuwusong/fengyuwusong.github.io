@@ -123,6 +123,6 @@ deploy:
   type: git
   repo: git@github.com:fengyuwusong/fengyuwusong.github.io.git
   branch: master
-  message: 机器学习入门(2)-机器学习主要术语
+  message: "fix(blog): 修复<<机器学习入门(2)-机器学习主要术语>>的公式错误"
   name: fengyuwusong
   email: 602766695@qq.com
