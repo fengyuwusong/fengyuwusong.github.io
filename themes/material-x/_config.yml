@@ -149,3 +149,7 @@ search:
 # Less
 less:
   compress: true
+
+# 公式支持
+mathjax:
+    enable: true

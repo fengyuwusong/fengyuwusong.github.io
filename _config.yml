@@ -123,6 +123,6 @@ deploy:
   type: git
   repo: git@github.com:fengyuwusong/fengyuwusong.github.io.git
   branch: master
-  message: "feature(blog): 每日leetcode-最长公共前缀"
+  message: "fix(blog): 重新修复公式bug"
   name: fengyuwusong
   email: 602766695@qq.com
