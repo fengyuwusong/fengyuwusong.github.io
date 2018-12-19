@@ -123,6 +123,6 @@ deploy:
   type: git
   repo: git@github.com:fengyuwusong/fengyuwusong.github.io.git
   branch: master
-  message: "feature(blog): 机器学习入门(3)-线性回归&训练与损失"
+  message: "feature(blog): 机器学习入门(4)-降低损失"
   name: fengyuwusong
   email: 602766695@qq.com
