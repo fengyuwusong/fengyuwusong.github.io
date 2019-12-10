@@ -123,6 +123,6 @@ deploy:
   type: git
   repo: git@github.com:fengyuwusong/fengyuwusong.github.io.git
   branch: master
-  message: "feature(blog): 每日leetcode-翻转字符串里的单词"
+  message: "feature(blog): 每日leetcode-两数之和-1"
   name: fengyuwusong
   email: 602766695@qq.com

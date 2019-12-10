@@ -92,7 +92,7 @@ widgets:
     title: "标签"
   # 显示音乐播放器
   music:
-    enable: true
+    enable: false
     icon: fas fa-headphones-alt
     title: "最近在听"
     link: 'https://music.163.com/#/user/home?id=63035382'
