@@ -26,10 +26,10 @@ links:
   avatar: https://img.vim-cn.com/ae/e5c96b80420c77773c920f999647ddb08f2c58.png
   url: https://xaoxuu.com/blog/
 
-# 网站链接配置
+# 网站链接配
 url: http://fengyuwsuong.cn
 root: /
-permalink: :year/:month/:day/:title/
+permalink: :year/:month/:day/:title/fan
 permalink_defaults:
 
 # 导航栏
@@ -123,6 +123,6 @@ deploy:
   type: git
   repo: git@github.com:fengyuwusong/fengyuwusong.github.io.git
   branch: master
-  message: "feature(blog): 每日leetcode-两数之和-1"
+  message: "feature(blog): 每日leetcode-整数翻转-7"
   name: fengyuwusong
   email: 602766695@qq.com
