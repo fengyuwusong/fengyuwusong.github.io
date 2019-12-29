@@ -6,15 +6,13 @@ categories:
 tags: [pandas, 机器学习, 学习笔记]
 ---
 
-## Pands简介
-
 [*pandas*](http://pandas.pydata.org/) 是一种列存数据分析 API。它是用于处理和分析输入数据的强大工具，很多机器学习框架都支持将 *pandas* 数据结构作为输入。
 
 官方文档：[点这里~](http://pandas.pydata.org/pandas-docs/stable/index.html)
 
 ***该系列机器学习是实践 [谷歌机器学习教程](https://developers.google.cn/machine-learning/crash-course/)做的笔记。***
 
-<!--more-->
+<!-- more -->
 
 ## 安装
 

@@ -6,9 +6,7 @@ categories:
 tags: [leetcode, 每日训练, 算法, 面试, 学习笔记]
 ---
 
-## 无重复字符的最长子串
-
- 给定一个字符串，请你找出其中不含有重复字符的 **最长子串** 的长度。
+给定一个字符串，请你找出其中不含有重复字符的 **最长子串** 的长度。
 
 **示例 1:**
 
@@ -37,7 +35,7 @@ tags: [leetcode, 每日训练, 算法, 面试, 学习笔记]
 
 题目链接：[点击这里~](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
 
-<!--more-->
+<!-- more -->
 
 ## 思路
 

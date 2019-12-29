@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -19,39 +17,72 @@
   %>
   <title><% if (title) { %><%= title %> | <% } %><%= config.title %></title>
   <% if (page.keywords && config.keywords){ %>
-  <meta name="keywords" content="<%= page.keywords %>, <%= config.keywords %>">
+  <meta name="keywords" content="<%- page.keywords %>, <%- config.keywords %>">
   <% } else if (page.keywords) { %>
-  <meta name="keywords" content="<%= page.keywords %>">
+  <meta name="keywords" content="<%- page.keywords %>">
   <% } else if (config.keywords) { %>
-  <meta name="keywords" content="<%= config.keywords %>">
+  <meta name="keywords" content="<%- config.keywords %>">
   <% } %>
+  <% if (page.description && config.description){ %>
+  <meta name="description" content="<%- page.description %>, <%- config.description %>">
+  <% } else if (page.description) { %>
+  <meta name="description" content="<%- page.description %>">
+  <% } else if (config.description) { %>
+  <meta name="description" content="<%- config.description %>">
+  <% } %>
+
+  <% if (config.feed && config.feed.path){ %>
+  <%- feed_tag(config.feed.path, {title: config.title}) %>
+  <% } %>
+
   <meta name="HandheldFriendly" content="True" />
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <%- favicon_tag(config.favicon) %>
-  <%- feed_tag(config.feed.path, {title: config.title}) %>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-  <link rel="shortcut icon" href="<%= config.shortcut_icon %>" />
-  <link rel="icon" href="<%= config.favicon %>" />
-  <% if (theme.google_fonts){ %>
-  <link href="https://fonts.googleapis.com/css?family=<%= theme.google_fonts %>" rel="stylesheet">
-  <% } else { %>
-  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <!-- meta -->
+  <% if (config.import && config.import.meta){ %>
+  <% (config.import.meta||[]).forEach(function(item){ %>
+  <%- item %><% }) %>
   <% } %>
-  <!-- <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-  <link href='//cdn.bootcss.com/node-waves/0.7.5/waves.min.css' rel='stylesheet'>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.7.0/dist/APlayer.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/aplayer@1.7.0/dist/APlayer.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/meting@1.1.0/dist/Meting.min.js"></script>
 
-  <%- css('style.css') %>
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  <% if (theme.nodewaves == true) { %>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  <% } %>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  <% if (config.import && config.import.link){ %>
+  <% (config.import.link||[]).forEach(function(item){ %>
+  <%- item %><% }) %>
+  <% } %>
+
+  <% if (config.favicon) { %>
+  <link rel="shortcut icon" type='image/x-icon' href="<%- url_for(config.favicon) %>">
+  <% } %>
+
+  <% if (config.use_cdn && theme.info && theme.info.cdn && theme.info.cdn.css && theme.info.cdn.css.style) { %>
+    <%- css(theme.info.cdn.css.style) %>
+  <% } else { %>
+    <%- css('style.css') %>
+  <% } %>
+
   <script>
     function setLoadingBarProgress(num) {
       document.getElementById('loading-bar').style.width=num+"%";
     }
   </script>
+
+  <% if (config.google_analytics_key) { %>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<%- config.google_analytics_key %>"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '<%- config.google_analytics_key %>');
+    </script>
+  <% } %>
   <% if (config.baidu_analytics_key) { %>
+    <!-- ba -->
     <script>
     var _hmt = _hmt || [];
     (function() {

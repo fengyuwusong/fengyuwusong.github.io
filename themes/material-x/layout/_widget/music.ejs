@@ -1,15 +1,21 @@
-<section class='m_widget music'>
-  <header class='header <%= theme.style %>'>
-    <div><i class="<%= theme.widgets.music.icon %> fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;<%= theme.widgets.music.title %></div>
-    <a class="rightBtn" target="_blank" rel="external nofollow noopener noreferrer" href="<%= theme.widgets.music.link %>"><i class="far fa-heart fa-fw"></i></a>
-  </header>
-  <div class='content <%= theme.style %>'>
-    <div class="aplayer" data-theme="<%= theme.widgets.music.color %>"
-      data-mode="<%= theme.widgets.music.mode %>"
-      data-autoplay="<%= theme.widgets.music.autoplay %>"
-      data-server="<%= theme.widgets.music.server %>"
-      data-type="<%= theme.widgets.music.type %>"
-      data-id="<%= theme.widgets.music.id %>"
-      data-volume="<%= theme.widgets.music.volume %>"></div>
-  </div>
-</section>
+<%
+var needDisplay = true;
+if (page.music && page.music.autoplay) {
+  needDisplay = false;
+}
+if (page.widget && page.widget.music == false) {
+  needDisplay = false;
+}
+%>
+
+<% if (theme.music && theme.music.enable == true && needDisplay == true) { %>
+  <section class='widget <%- item.widget %>'>
+    <%- partial('header', {item: item, defIcon: '', defTitle: ''}) %>
+    <div class='content <%= theme.style %>'>
+      <%- partial('../_third-party/aplayer',
+      {aplayer_theme: item.color, aplayer_mini: false, aplayer_mode: item.mode,
+      aplayer_server: item.server, aplayer_type: item.type, aplayer_id: item.id,
+      aplayer_volume: item.volume, aplayer_autoplay: item.autoplay?item.autoplay:false }) %>
+    </div>
+  </section>
+<% } %>

@@ -1,23 +1,44 @@
-<% if (theme.widgets){ %>
-    <% if (theme.widgets.author.enable){ %>
-        <%- partial('../_widget/author') %>
+<aside class='l_side'>
+  <% if (theme.sidebar && theme.sidebar.length){ %>
+    <%
+    let supportWidgets = ['author', 'category', 'list', 'music', 'tagcloud', 'toc', 'plain', 'related_posts', 'grid'];
+    %>
+    <% if (page.sidebar) { %>
+      <% page.sidebar.forEach(function(name){ %>
+        <% theme.sidebar.forEach(function(item){ %>
+          <% let widget_name = item.widget ? item.widget : 'plain'; %>
+          <% if (item.enable != false && widget_name == name){ %>
+            <% if (supportWidgets.indexOf(widget_name) > -1){ %>
+              <%- partial('../_widget/' + item.widget, {item: item}) %>
+            <% } %>
+          <% } %>
+        <% }) %>
+      <% }) %>
+    <% } else { %>
+      <%
+      var names = [];
+      if(is_home() || is_category() || is_archive() || is_tag() || page.layout == 'list') {
+        var isPostList = true;
+      } else {
+        var isPostList = false;
+      }
+      if (isPostList) {
+        names = theme.layout.posts.sidebar;
+      } else {
+        names = theme.layout.article.sidebar;
+      }
+      %>
+      <% names.forEach(function(name){ %>
+        <% theme.sidebar.forEach(function(item){ %>
+          <% let widget_name = item.widget ? item.widget : 'plain'; %>
+          <% if (item.enable != false && widget_name == name){ %>
+            <% if (supportWidgets.indexOf(widget_name) > -1){ %>
+              <%- partial('../_widget/' + item.widget, {item: item}) %>
+            <% } %>
+          <% } %>
+        <% }) %>
+      <% }) %>
     <% } %>
-    <% if (theme.widgets.categories.enable){ %>
-        <%- partial('../_widget/announcement') %>
-    <% } %>
-    <% if (theme.widgets.categories.enable){ %>
-        <%- partial('../_widget/categories') %>
-    <% } %>
-    <% if (theme.widgets.tagcloud.enable){ %>
-        <%- partial('../_widget/tagcloud') %>
-    <% } %>
-    <% if (theme.widgets.toc.enable){ %>
-        <%- partial('../_widget/toc') %>
-    <% } %>
-    <% if (theme.widgets.music.enable){ %>
-        <%- partial('../_widget/music') %>
-    <% } %>
-    <% if (theme.widgets.links.enable){ %>
-        <%- partial('../_widget/links') %>
-    <% } %>
-<% } %>
+
+  <% } %>
+</aside>

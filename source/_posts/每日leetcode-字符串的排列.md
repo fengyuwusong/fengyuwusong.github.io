@@ -6,8 +6,6 @@ categories:
 tags: [leetcode, 每日训练, 算法, 面试, 学习笔记]
 ---
 
-## 字符串的排列
-
 给定两个字符串 **s1** 和 **s2**，写一个函数来判断 **s2** 是否包含 **s1** 的排列。
 
 换句话说，第一个字符串的排列之一是第二个字符串的子串。
@@ -38,7 +36,7 @@ tags: [leetcode, 每日训练, 算法, 面试, 学习笔记]
 
 题目地址：[这里~](https://leetcode-cn.com/explore/interview/card/bytedance/242/string/1016/)
 
-<!--more-->
+<!-- more -->
 
 ------
 

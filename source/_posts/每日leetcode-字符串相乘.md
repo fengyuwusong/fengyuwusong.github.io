@@ -6,8 +6,6 @@ categories:
 tags: [leetcode, 每日训练, 算法, 面试, 学习笔记]
 ---
 
-## 字符串相乘
-
 给定两个以字符串形式表示的非负整数 `num1` 和 `num2`，返回 `num1` 和 `num2` 的乘积，它们的乘积也表示为字符串形式。
 
 **示例 1:**
@@ -33,7 +31,7 @@ tags: [leetcode, 每日训练, 算法, 面试, 学习笔记]
 
 题目链接：[点击这里~](https://leetcode-cn.com/explore/interview/card/bytedance/242/string/1015/)
 
-<!--more-->
+<!-- more -->
 
 ## 思路
 

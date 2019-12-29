@@ -6,8 +6,6 @@ categories:
 tags: [leetcode, 每日训练, 算法, 面试, 学习笔记]
 ---
 
-## 最长公共前缀
-
 编写一个函数来查找字符串数组中的最长公共前缀。
 
 如果不存在公共前缀，返回空字符串 `""`。
@@ -33,7 +31,7 @@ tags: [leetcode, 每日训练, 算法, 面试, 学习笔记]
 
 题目链接：[点击这里~](https://leetcode-cn.com/explore/interview/card/bytedance/242/string/1014/)
 
-<!--more-->
+<!-- more -->
 
 ## 思路
 

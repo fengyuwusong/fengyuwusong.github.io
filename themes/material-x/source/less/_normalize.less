@@ -212,6 +212,9 @@ hr {
   -moz-box-sizing: content-box;
   box-sizing: content-box;
   height: 0;
+  border: 0;
+  border-radius: 1px;
+  border-bottom: 1px solid fade(@color_text_main, 10%);
 }
 
 /**
@@ -420,19 +423,20 @@ table {
   border-collapse: collapse;
   width: 100%;
   th {
-    background-color: lighten(@theme_bg_main, 1%);
+    background-color: lighten(@theme_background, 1%);
   }
   td,
   th {
-      padding: 4px 8px;
-      border: 1px solid @theme_bg_main;
+    text-align: justify;
+    padding: 4px 8px;
+    border: 1px solid @theme_background;
   }
   tr {
-      // border-bottom: 2px solid #eee;
-      // background-color: @theme_bg_quote;
+    // border-bottom: 2px solid #eee;
+    // background-color: @theme_main;
   }
   &>thead>th {
-      // border-bottom-width: 2px;
+    // border-bottom-width: 2px;
   }
 }
 

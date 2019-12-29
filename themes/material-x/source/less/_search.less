@@ -23,6 +23,7 @@
     box-shadow: 0 7px 8px -4px rgba(0,0,0,.2),0 13px 19px 2px rgba(0,0,0,.14),0 5px 24px 4px rgba(0,0,0,.12);
     z-index: 3;
     border-radius: @border_radius;
+    overflow: hidden;
     @media (max-width: @on_modal_threshold) {
   		box-shadow: none;
       max-width: none;
@@ -47,7 +48,7 @@
       position: relative;
       width: 100%;
       height: @height_navbar;
-      background-color: @theme_bg_navbar;
+      background-color: @color_bg_navbar;
       z-index: 3;
       border-top-left-radius: @border_radius;
       border-top-right-radius: @border_radius;
@@ -70,7 +71,7 @@
         height: @height_navbar;
         top: 0;
         right: 0;
-        color: @theme_text_in_header;
+        color: @color_text_in_header;
         cursor: pointer;
         text-align: center;
         line-height: @height_navbar;
@@ -114,7 +115,7 @@
           font-size: @fontsize_base;
           line-height: @lineheight_base;
           vertical-align: middle;
-          color: @theme_text_in_header;
+          color: @color_text_in_header;
           border: none;
           background: transparent;
           .enable-trans();
@@ -140,7 +141,7 @@
         height: @height_navbar;
         vertical-align: middle;
         font-size: @fontsize_header_switcher;
-        color: @theme_text_in_header;
+        color: @color_text_in_header;
         z-index: 2;
       }
     }
@@ -230,7 +231,8 @@
       left: 0;
       overflow-y: scroll;
       -webkit-overflow-scrolling: touch;
-
+      background-color: @theme_cardbg;
+      border-radius: @border_radius;
       @media (max-width: @on_modal_threshold) {
         padding: 60px 20px 80px 20px;
     	}
@@ -255,13 +257,13 @@
               // color: @black;
             }
             .title {
-              color: @theme_text_highlight;
+              color: @color_text_highlight;
             }
           }
           .title {
             display: inline-block;
             max-width: 100%;
-            color: lighten(@theme_text_main, 10%);
+            color: lighten(@color_text_main, 10%);
             font-size: @fontsize_base;
             font-weight: bold;
             padding: 1px;
@@ -278,7 +280,7 @@
             text-overflow: ellipsis;
             font-size: @fontsize_small;
             line-height: @lineheight_base;
-            color: lighten(@theme_text_main, 30%);
+            color: lighten(@color_text_main, 30%);
             .enable-trans();
             em {
               // font-weight: bold;
