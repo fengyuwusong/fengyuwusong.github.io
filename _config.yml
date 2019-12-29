@@ -122,5 +122,6 @@ deploy:
   type: git
   repo: git@github.com:fengyuwusong/fengyuwusong.github.io.git
   branch: master
+  message: "feature(blog): 每日leetcode-13-罗马数字转整数"
   name: fengyuwusong
   email: 602766695@qq.com
