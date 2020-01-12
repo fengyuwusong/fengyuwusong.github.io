@@ -128,6 +128,6 @@ deploy:
   type: git
   repo: git@github.com:fengyuwusong/fengyuwusong.github.io.git
   branch: master
-  message: "feature(blog): 每日leetcode-13-罗马数字转整数"
+  message: "feature(*): 更改遗漏未替换为https的图床链接"
   name: fengyuwusong
   email: 602766695@qq.com

@@ -147,7 +147,7 @@ layout:
 # 侧边栏小部件配置
 sidebar:
   - widget: author
-    avatar: http://pic.fengyuwusong.cn/avatar.png
+    avatar: https://pic.fengyuwusong.cn/avatar.png
     body: 业精于勤荒于嬉, 形成于思毁于随
     social: true
 #  - widget: plain
