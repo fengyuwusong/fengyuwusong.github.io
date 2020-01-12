@@ -10,12 +10,12 @@ language:
   - zh-HK
   - zh-TW
 timezone: Asia/Shanghai
-shortcut_icon: "http://pic.fengyuwusong.cn/avatar.png"
-favicon: "http://pic.fengyuwusong.cn/avatar.png"
-avatar: "http://pic.fengyuwusong.cn/avatar.png"
+shortcut_icon: "https://pic.fengyuwusong.cn/avatar.png"
+favicon: "https://pic.fengyuwusong.cn/avatar.png"
+avatar: "https://pic.fengyuwusong.cn/avatar.png"
 
 # 网站链接配
-url: http://fengyuwsuong.cn
+url: https://fengyuwsuong.cn
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -115,6 +115,12 @@ theme: material-x
 leancloud:
   app_id: 4ostjPGgQz6dtae97OShmQBj-gzGzoHsz
   app_key: vEFK2xQiAC3hKlgcL3wY0HGI
+
+# 自动生成sitemap
+sitemap:
+  path: sitemap.xml
+baidusitemap:
+  path: baidusitemap.xml
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
