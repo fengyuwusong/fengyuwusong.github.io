@@ -128,6 +128,6 @@ deploy:
   type: git
   repo: git@github.com:fengyuwusong/fengyuwusong.github.io.git
   branch: master
-  message: "feat(*): 2019年总结"
+  message: "feat(leetcode): leetcode-20&leetcode-21"
   name: fengyuwusong
   email: 602766695@qq.com
