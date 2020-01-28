@@ -128,6 +128,6 @@ deploy:
   type: git
   repo: git@github.com:fengyuwusong/fengyuwusong.github.io.git
   branch: master
-  message: "feat(leetcode): leetcode-26"
+  message: "feat(post): learn-regex"
   name: fengyuwusong
   email: 602766695@qq.com

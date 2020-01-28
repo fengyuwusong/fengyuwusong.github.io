@@ -1,5 +1,5 @@
 ---
-title: leetcode-21-Remove Duplicates from Sorted Array
+title: leetcode-26-Remove Duplicates from Sorted Array
 categories:
   - leetcode
 tags:
