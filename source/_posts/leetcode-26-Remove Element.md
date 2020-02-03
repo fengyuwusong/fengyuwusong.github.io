@@ -1,0 +1,187 @@
+---
+title: leetcode-27-Remove Element
+categories:
+  - leetcode
+tags:
+  - 面试
+  - 学习笔记
+  - leetcode
+keywords: 'leetcede,Remove Element'
+date: 2020-02-3 18:30:13
+
+
+---
+
+### 题目
+
+```shell
+Given an array nums and a value val, remove all instances of that value in-place and return the new length.
+
+Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory.
+
+The order of elements can be changed. It doesn't matter what you leave beyond the new length.
+
+Example 1:
+
+Given nums = [3,2,2,3], val = 3,
+
+Your function should return length = 2, with the first two elements of nums being 2.
+
+It doesn't matter what you leave beyond the returned length.
+Example 2:
+
+Given nums = [0,1,2,2,3,0,4,2], val = 2,
+
+Your function should return length = 5, with the first five elements of nums containing 0, 1, 3, 0, and 4.
+
+Note that the order of those five elements can be arbitrary.
+
+It doesn't matter what values are set beyond the returned length.
+Clarification:
+
+Confused why the returned value is an integer but your answer is an array?
+
+Note that the input array is passed in by reference, which means modification to the input array will be known to the caller as well.
+
+Internally you can think of this:
+
+// nums is passed in by reference. (i.e., without making a copy)
+int len = removeElement(nums, val);
+
+// any modification to nums in your function would be known by the caller.
+// using the length returned by your function, it prints the first len elements.
+for (int i = 0; i < len; i++) {
+    print(nums[i]);
+}
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/remove-element
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+```
+
+<!-- more -->
+
+### 解答思路
+
+记录一个后置索引变量`lastIndex`, 当前序遍历到`val`时将该后置索引元素代替当前元素`i`，并后退`i`和`lastIndex`索引。当`i==lastIndex`时退出循环返回该变量即可。以下举例：
+
+ ```go
+// 初始化
+nums = [0, 1, 2, 2, 3, 0, 4, 2]
+val = 2
+lastIndex = 8 // 初始化为数组长度 
+
+// 第一次遍历
+i = 0 // 当前索引
+num = 0 // 当前元素
+nums = [0, 1, 2, 2, 3, 0, 4, 2]
+lastIndex = 8
+
+// 第二次遍历
+i = 1
+num = 1
+
+// 第三次遍历
+i = 2
+num = 2 // 与val相等 执行以下程序
+
+lastIndex--
+nums[i] = nums[lastIndex]
+i--
+
+//  此时变量
+nums = [0, 1, 2, 2, 3, 0, 4, 2]
+i = 1
+lastIndex = 7
+
+// 第四次遍历
+i = 2
+num = 2 // 与val相等 执行以下程序
+
+lastIndex--
+nums[i] = nums[lastIndex]
+i--
+
+//  此时变量
+nums = [0, 1, 4, 2, 3, 0, 2, 2]
+i = 1
+lastIndex = 6
+
+// 第五次遍历
+i = 2
+num = 4
+
+// 第六次遍历
+i = 3
+num = 2 // 与val相等 执行以下程序
+
+lastIndex--
+nums[i] = nums[lastIndex]
+i--
+
+//  此时变量
+nums = [0, 1, 4, 0, 3, 2, 2, 2]
+i = 2
+lastIndex = 5
+
+// 第七次遍历
+i = 3
+num = 0
+
+// 第八次遍历
+i = 4
+num = 3
+
+// 第九次遍历
+i = 5  // 与 lastIndex 相等 退出循环
+
+return lastIndex // 则可遍历结果为前5个 [0, 1, 4, 0, 3]
+ ```
+
+### 代码
+
+```go
+package easy
+
+import (
+	"fmt"
+	"testing"
+)
+
+func removeElement(nums []int, val int) int {
+	if len(nums) == 0 {
+		return -1
+	}
+	var lastIndex int = len(nums)
+	for i := 0; i < len(nums); i++ {
+		// 跳出循环条件
+		if lastIndex == i {
+			break
+		}
+		// 相等则前后索引元素替换 lastIndex、i 后退重新遍历当前元素
+		if nums[i] == val {
+			lastIndex--
+			nums[i] = nums[lastIndex]
+			i--
+		}
+	}
+	return lastIndex
+}
+func TestRemoveElement(t *testing.T) {
+
+	f := func(nums []int, length int) {
+		println(length)
+		for i := 0; i < length; i++ {
+			fmt.Printf("%d=>", nums[i])
+		}
+		println()
+	}
+	nums := []int{0, 1, 2, 2, 3, 0, 4, 2}
+	length := removeElement(nums, 2)
+	f(nums, length)
+	nums = []int{1}
+	length = removeElement(nums, 1)
+	f(nums, length)
+}
+
+```
