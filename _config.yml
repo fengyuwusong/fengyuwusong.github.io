@@ -128,6 +128,6 @@ deploy:
   type: git
   repo: git@github.com:fengyuwusong/fengyuwusong.github.io.git
   branch: master
-  message: "feat(post): leetcode-27-Remove Element"
+  message: "feat: leetcode-28-Implement strStr()"
   name: fengyuwusong
   email: 602766695@qq.com
