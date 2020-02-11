@@ -128,6 +128,6 @@ deploy:
   type: git
   repo: git@github.com:fengyuwusong/fengyuwusong.github.io.git
   branch: master
-  message: "feat: leetcode-28-Implement strStr()"
+  message: "feat: leetcode-35-Search Insert Position"
   name: fengyuwusong
   email: 602766695@qq.com
