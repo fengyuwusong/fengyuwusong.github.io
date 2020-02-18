@@ -128,6 +128,6 @@ deploy:
   type: git
   repo: git@github.com:fengyuwusong/fengyuwusong.github.io.git
   branch: master
-  message: "feat: leetcode-38-Count and Say"
+  message: "feat: Golang包管理笔记"
   name: fengyuwusong
   email: 602766695@qq.com

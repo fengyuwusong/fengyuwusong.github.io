@@ -48,7 +48,7 @@ kmp解法：相较于暴力解法更聪明，遇到特定字符时不会完全�
 
 主要任务在于构建**确认有限自动状态机**，即上图中的跳转规则。创建next数组如下图所示：
 
-![next数组](https://blog-1251737177.cos.ap-guangzhou.myqcloud.com/20200211222207.png)
+![next数组](https://pic.leetcode-cn.com/b3fe29e2c772df9eb04baae42b4be0a388d03a625cb3815de474868531768d9b-file_1568963023183)
 
 伪代码：
 
