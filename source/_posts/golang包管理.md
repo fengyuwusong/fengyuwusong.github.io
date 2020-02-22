@@ -35,6 +35,8 @@ go get github.com/spf13/viper
 | Subversion | svn    | Subversion是一个版本控制系统，也是第一个将分支概念和功能纳入到版本控制模型的系统。但相对于Git和Mercurial而言，它只算是传统版本控制系统的一员。 |
 | Bazaar     | bzr    | Bazaar是一个开源的分布式版本控制系统。但相比而言，用它来作为VCS的项目并不多。 |
 
+<!-- more -->
+
 #### 1.1. 常用参数
 
 | 标记名称  | 标记描述                                                     |
