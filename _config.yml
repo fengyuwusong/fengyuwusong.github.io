@@ -128,6 +128,6 @@ deploy:
   type: git
   repo: git@github.com:fengyuwusong/fengyuwusong.github.io.git
   branch: master
-  message: "feat: leetcode-58-Length of Last Word"
+  message: "feat: leetcode-66-Plus One"
   name: fengyuwusong
   email: 602766695@qq.com
