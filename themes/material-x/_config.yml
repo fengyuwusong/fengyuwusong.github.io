@@ -53,7 +53,7 @@ backstretch:
   duration: 6000 # 持续时间（毫秒）
   fade: 2500     # 渐变（毫秒）
   images:
-    - https://img.vim-cn.com/29/91197b04c13f512f734a76d4ac422d89dbe229.jpg
+    - https://pic.fengyuwusong.cn/IMG_3742.jpg
 
 
 
@@ -249,8 +249,7 @@ share:
   #   img: https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qrcode.png
 
 
-#footer_post: '<center>这是文章页脚，可以设置打赏图片：<br><fancybox>![](https://img.vim-cn.com/4a/5f8244a7c6e1e069a781b84ed11008e7955e16.png)</fancybox></center>'
-# footer: '网页页脚文字，支持[markdown](/)'
+# footer: '风雨雾凇 © 2017 - 2021 | <a href="https://beian.miit.gov.cn/">陕ICP备15004432号-2</a>'
 
 
 ############################### 评论系统 ###############################
