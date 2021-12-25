@@ -128,6 +128,6 @@ deploy:
   type: git
   repo: git@github.com:fengyuwusong/fengyuwusong.github.io.git
   branch: master
-  message: "feat: 增加footer备案号"
+  message: "feat: ipad编程体验"
   name: fengyuwusong
   email: 602766695@qq.com
