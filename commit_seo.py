@@ -3,16 +3,16 @@ import requests
 import time
 from bs4 import BeautifulSoup as bp
 
-print unicode('Langzi.Fun 自动推送开启....','utf-8')
+print('Langzi.Fun 自动推送开启....','utf-8')
 time.sleep(0.5)
 # site_url = 'https://www.fengyuwusong.cn/baidusitemap.xml'
 #
 # try:
-#     print unicode('Langzi.Fun 获取sitemap链接....','utf-8')
+#     print('Langzi.Fun 获取sitemap链接....','utf-8')
 with open("public/baidusitemap.xml") as f:
     data_ = bp(f,'xml')
-# except Exception.e:
-#     print e
+# except Exception as e:
+#     print(e)
 
 list_url=[]
 
@@ -21,20 +21,20 @@ def get_(data):
              'Content-Type':'text/plain '}
     try:
         r = requests.post(url='http://data.zz.baidu.com/urls?site=https://www.fengyuwusong.cn&token=EZnSLTK6cftAyc6V',data=data)
-        print r.status_code
-        print r.content
-    except Exception,e:
-        print e
+        print(r.status_code)
+        print(r.content)
+    except Exception as e:
+        print(e)
 
-print '---------------------------------'
+print('---------------------------------')
 for x,y in enumerate(data_.find_all('loc')):
-    print x,y.string
+    print(x,y.string)
     list_url.append(y.string.replace('http://','http://www.'))
 
-print '---------------------------------'
+print('---------------------------------')
 
-print unicode('Langzi.Fun 开始推送....','utf-8')
+print('Langzi.Fun 开始推送....','utf-8')
 
 for x in list_url:
-    print unicode('Langzi.Fun 当前推送条目为:','utf-8') + x
+    print('Langzi.Fun 当前推送条目为: %s' % str(x))
     get_(x)
