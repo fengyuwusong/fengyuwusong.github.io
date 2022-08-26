@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>从事务到分布式事务 | 风雨雾凇</title>
+  
+  <meta name="keywords" content="分布式事务, 博客, 风雨雾凇">
+  
+  
+
+  
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://pic.fengyuwusong.cn/avatar.png">
+  
+
+  
+    
+<link rel="stylesheet" href="/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  
+  
+  <div class="cover-wrapper">
+    <cover class='cover post half'>
+      
+        
+  <h1 class='title'>风雨雾凇</h1>
+
+
+  <div class="m_search">
+    <form name="searchform" class="form u-search-form">
+      <input type="text" class="input u-search-input" placeholder="" />
+      <i class="icon fas fa-search fa-fw"></i>
+    </form>
+  </div>
+
+<div class='menu navgation'>
+  <ul class='h-list'>
+    
+      
+        <li>
+          <a class="nav home" href="/archives/"
+            
+              rel="nofollow"
+            
+            
+            id="archives">
+            <i class='fas fa-archive fa-fw'></i>&nbsp;归档
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/categories/"
+            
+              rel="nofollow"
+            
+            
+            id="categories">
+            <i class='fas fa-folder-open fa-fw'></i>&nbsp;分类
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/tags/"
+            
+              rel="nofollow"
+            
+            
+            id="tags">
+            <i class='fas fa-hashtag fa-fw'></i>&nbsp;标签
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/about/"
+            
+              rel="nofollow"
+            
+            
+            id="about">
+            <i class='fas fa-info-circle fa-fw'></i>&nbsp;关于
+          </a>
+        </li>
+      
+    
+  </ul>
+</div>
+
+      
+    </cover>
+    <header class="l_header pure">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="pure"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          风雨雾凇
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/"
+                  
+                  
+                  id="home">
+									<i class='fas fa-grin fa-fw'></i>&nbsp;博客
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/categories/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="categories">
+									<i class='fas fa-folder-open fa-fw'></i>&nbsp;分类
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/tags/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="tags">
+									<i class='fas fa-hashtag fa-fw'></i>&nbsp;标签
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/archives/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="archives">
+									<i class='fas fa-archive fa-fw'></i>&nbsp;归档
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/"
+                
+                
+                id="home">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;近期文章
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/archives/"
+                
+                  rel="nofollow"
+                
+                
+                id="archives">
+								<i class='fas fa-archive fa-fw'></i>&nbsp;文章归档
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/projects/"
+                
+                
+                id="projects">
+								<i class='fas fa-code-branch fa-fw'></i>&nbsp;开源项目
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/about/"
+                
+                  rel="nofollow"
+                
+                
+                id="about">
+								<i class='fas fa-info-circle fa-fw'></i>&nbsp;关于小站
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+    
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2022/08/26/%E4%BB%8E%E4%BA%8B%E5%8A%A1%E5%88%B0%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/">
+        从事务到分布式事务
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    
+      <a href="https://fengyuwsuong.cn" rel="nofollow">
+        
+          <img src="https://pic.fengyuwusong.cn/avatar.png">
+        
+        <p>风雨雾凇</p>
+      </a>
+    
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2022-08-26</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E4%BA%8B%E5%8A%A1/%E5%88%86%E5%B8%83%E5%BC%8F/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>学习笔记&nbsp;/&nbsp;事务&nbsp;/&nbsp;分布式</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item wordcount">
+      <a class='notlink'>
+        <i class="fas fa-keyboard" aria-hidden="true"></i>
+        <p>字数统计:</p>
+        <p>2.4k字</p>
+      </a>
+    </div>
+    <div class="new-meta-item readtime">
+      <a class='notlink'>
+        <i class="fas fa-hourglass-half" aria-hidden="true"></i>
+        <p>阅读时长≈</p>
+        <p>8分</p>
+      </a>
+    </div>
+  
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <h3 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h3><h4 id="CAP"><a href="#CAP" class="headerlink" title="CAP"></a>CAP</h4><p>CAP理论是分布式系统、特别是分布式存储领域中被讨论的最多的理论。其中C代表一致性 (Consistency)，A代表可用性 (Availability)，P代表分区容错性 (Partition tolerance)。CAP理论告诉我们C、A、P三者不能同时满足，最多只能满足其中两个。</p>
+<p><img src="https://pdai.tech/_images/arch/arch-cap-1.png" alt="cap描述"></p>
+<ul>
+<li>Consistency（一致性）一个写操作返回成功，那么之后的读请求都必须读到这个新数据；如果返回失败，那么所有读操作都不能读到这个数据。所有节点访问同一份最新的数据。</li>
+<li>Availability（可用性）对数据更新具备高可用性，请求能够及时处理，不会一直等待，即使出现节点失效。</li>
+<li>Partition tolerance（分区性容错性）能容忍网络分区，在网络断开的情况下，被分隔的节点仍能正常对外提供服务。</li>
+</ul>
+<h5 id="思考题：对CAP的理解（为什么只能满足两个？）"><a href="#思考题：对CAP的理解（为什么只能满足两个？）" class="headerlink" title="思考题：对CAP的理解（为什么只能满足两个？）"></a>思考题：对CAP的理解（为什么只能满足两个？）</h5><p>假设放弃P，考虑CA。</p>
+<h5 id="现有系统符合的种类"><a href="#现有系统符合的种类" class="headerlink" title="现有系统符合的种类"></a>现有系统符合的种类</h5><p>CA: 不需要分区的数据库（单机mysql、mongo等）<br>CP: 需要分区和强一致性而放弃了可用性的系统（ACID强事务型数据库）<br>AP: 需要分区和高可用而放弃了可用性的系统（非事务型数据库、大多数互联网应用）</p>
+<h4 id="BASE"><a href="#BASE" class="headerlink" title="BASE"></a>BASE</h4><p><img src="https://pdai.tech/_images/arch/arch-cap-2.png" alt="base 描述"></p>
+<ul>
+<li>Basically Available（基本可用）分布式系统在出现不可预知故障的时候，允许损失部分可用性</li>
+<li>Soft state（软状态）软状态也称为弱状态，和硬状态相对，是指允许系统中的数据存在中间状态，并认为该中间状态的存在不会影响系统的整体可用性，即允许系统在不同节点的数据副本之间进行数据同步的过程存在延时</li>
+<li>Eventually consistent（最终一致性）最终一致性强调的是系统中所有的数据副本，在经过一段时间的同步后，最终能够达到一个一致的状态。因此，最终一致性的本质是需要系统保证最终数据能够达到一致，而不需要实时保证系统数据的强一致性</li>
+</ul>
+<p>BASE是对CAP中一致性和可用性权衡的结果，其来源于对大规模互联网系统分布式实践的结论，是基于CAP定理逐步演化而来的，其核心思想是即使无法做到强一致性（Strong consistency），更具体地说，<strong>是对 CAP 中 AP 方案的一个补充</strong>。<br>其基本思路就是：通过业务，牺牲强一致性而获得可用性，并允许数据在一段时间内是不一致的，但是最终达到一致性状态。</p>
+<h4 id="数据库事务定义"><a href="#数据库事务定义" class="headerlink" title="数据库事务定义"></a>数据库事务定义</h4><p>把多条语句作为一个整体进行操作的功能，被称为数据库事务。数据库事务可以确保该事务范围内的所有操作都可以全部成功或者全部失败。</p>
+<h4 id="ACID"><a href="#ACID" class="headerlink" title="ACID"></a>ACID</h4><ul>
+<li>Atomicity（原子性）：事务被视为不可分割的最小单元，事务的所有操作要么全部提交成功，要么全部失败回滚。</li>
+<li>Consistency（一致性）：数据库在事务执行前后都保持一致性状态。在一致性状态下，所有事务对同一个数据的读取结果都是相同的。</li>
+<li>Isolation（隔离性）：一个事务所做的修改在最终提交以前，对其它事务是不可见的。</li>
+<li>Durability（持久性）：一旦事务提交，则其所做的修改将会永远保存到数据库中。即使系统发生崩溃，事务执行的结果也不能丢失。</li>
+</ul>
+<p><img src="https://camo.githubusercontent.com/d688683e3f6fb14d059412247e4f427a7cd1aa7686417bc552e061628f24dd84/68747470733a2f2f63732d6e6f7465732d313235363130393739362e636f732e61702d6775616e677a686f752e6d7971636c6f75642e636f6d2f696d6167652d32303139313230373231303433373032332e706e67" alt="enter image description here"></p>
+<h5 id="思考题：如何实现原子性和持久性的回滚和丢失恢复？"><a href="#思考题：如何实现原子性和持久性的回滚和丢失恢复？" class="headerlink" title="思考题：如何实现原子性和持久性的回滚和丢失恢复？"></a>思考题：如何实现原子性和持久性的回滚和丢失恢复？</h5><p>Undo Log、Redo Log</p>
+<h4 id="并发一致性问题"><a href="#并发一致性问题" class="headerlink" title="并发一致性问题"></a>并发一致性问题</h4><ul>
+<li>丢失修改</li>
+<li>读脏数据</li>
+<li>不可重复读</li>
+<li>幻影读</li>
+</ul>
+<h4 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h4><p><img src="https://camo.githubusercontent.com/1632a88a3a4fa7954026cb939edf2f8a30bb5d60a1bce4921c7e0d0e4d245739/68747470733a2f2f63732d6e6f7465732d313235363130393739362e636f732e61702d6775616e677a686f752e6d7971636c6f75642e636f6d2f696d6167652d32303139313230373232333430303738372e706e67" alt="enter image description here"></p>
+<h4 id="不同隔离级别实现原理"><a href="#不同隔离级别实现原理" class="headerlink" title="不同隔离级别实现原理"></a>不同隔离级别实现原理</h4><p>未提交读：一直读最新数据<br>提交读、可重复读：MVCC<br>可串行化隔离级别需要对所有读取的行都加锁（Next-Key Locks），单纯使用 MVCC 无法实现。</p>
+<h5 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h5><p>TODO</p>
+<h5 id="Next-Key-Locks"><a href="#Next-Key-Locks" class="headerlink" title="Next-Key Locks"></a>Next-Key Locks</h5><p>TODO</p>
+<h4 id="封锁"><a href="#封锁" class="headerlink" title="封锁"></a>封锁</h4><ul>
+<li>读写锁、意向锁： TODO</li>
+<li>封锁协议：TODO</li>
+</ul>
+<h3 id="本地事务"><a href="#本地事务" class="headerlink" title="本地事务"></a>本地事务</h3><p>本地事务是指仅操作单一事务资源的、不需要全局事务管理器进行协调的事务。</p>
+<h4 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h4><p>数据库本身支持事务。</p>
+<h4 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h4><p>单个服务使用单个数据源的场景。<br>例如最简单的单机单数据源多表转账服务。</p>
+<h3 id="全局事务"><a href="#全局事务" class="headerlink" title="全局事务"></a>全局事务</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>与本地事务相对的是全局事务（Global Transaction）<br>全局事务被限定为一种适用于单个服务使用多个数据源场景的事务解决方案。</p>
+<h4 id="实现原理-1"><a href="#实现原理-1" class="headerlink" title="实现原理"></a>实现原理</h4><ul>
+<li>思考题：以下代码有什么问题？</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buyBook</span><span class="params">(PaymentBill bill)</span> </span>&#123;</span><br><span class="line">    userTransaction.begin();</span><br><span class="line">    warehouseTransaction.begin();</span><br><span class="line">    businessTransaction.begin();</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">        userAccountService.pay(bill.getMoney());</span><br><span class="line">        warehouseService.deliver(bill.getItems());</span><br><span class="line">        businessAccountService.receipt(bill.getMoney());</span><br><span class="line">        userTransaction.commit();</span><br><span class="line">        warehouseTransaction.commit();</span><br><span class="line">        businessTransaction.commit();</span><br><span class="line">	&#125; <span class="keyword">catch</span>(Exception e) &#123;</span><br><span class="line">        userTransaction.rollback();</span><br><span class="line">        warehouseTransaction.rollback();</span><br><span class="line">        businessTransaction.rollback();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="XA"><a href="#XA" class="headerlink" title="XA"></a>XA</h5><p>XA是由X/Open组织提出的分布式事务的规范，XA规范主要定义了(全局)事务管理器(TM)和(局部)资源管理器(RM)之间的接口。本地的数据库如mysql在XA中扮演的是RM角色。</p>
+<h5 id="2PC"><a href="#2PC" class="headerlink" title="2PC"></a>2PC</h5><p><img src="https://www.dtm.pub/assets/xa_normal.5a0ce600.jpg" alt="enter image description here"></p>
+<p><strong>准备阶段</strong>：又叫作投票阶段，在这一阶段，协调者询问事务的所有参与者是否准备好提交，参与者如果已经准备好提交则回复 Prepared，否则回复 Non-Prepared。这里所说的准备操作跟人类语言中通常理解的准备并不相同，对于数据库来说，准备操作是在重做日志中记录全部事务提交操作所要做的内容，它与本地事务中真正提交的区别只是暂不写入最后一条 Commit Record 而已，这意味着在做完数据持久化后并不立即释放隔离性，即仍继续持有锁，维持数据对其他非事务内观察者的隔离状态。<br><strong>提交阶段</strong>：又叫作执行阶段，协调者如果在上一阶段收到所有事务参与者回复的 Prepared 消息，则先自己在本地持久化事务状态为 Commit，在此操作完成后向所有参与者发送 Commit 指令，所有参与者立即执行提交操作；否则，任意一个参与者回复了 Non-Prepared 消息，或任意一个参与者超时未回复，协调者将自己的事务状态持久化为 Abort 之后，向所有参与者发送 Abort 指令，参与者立即执行回滚操作。对于数据库来说，这个阶段的提交操作应是很轻量的，仅仅是持久化一条 Commit Record 而已，通常能够快速完成，只有收到 Abort 指令时，才需要根据回滚日志清理已提交的数据，这可能是相对重负载的操作。</p>
+<ul>
+<li>2PC存在的问题<ul>
+<li>单点问题</li>
+<li>性能问题</li>
+<li>一致性风险</li>
+</ul>
+</li>
+</ul>
+<h5 id="3PC"><a href="#3PC" class="headerlink" title="3PC"></a>3PC</h5><p>增加CanCommit询问阶段，增加成功概率，一定程度解决单点和性能问题。</p>
+<p><img src="https://blog-1251737177.cos.ap-guangzhou.myqcloud.com/20220826160139.png" alt="enter image description here"></p>
+<h3 id="共享事务"><a href="#共享事务" class="headerlink" title="共享事务"></a>共享事务</h3><h4 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h4><p>共享事务（Share Transaction）是指多个服务共用同一个数据源。</p>
+<h4 id="实现原理-2"><a href="#实现原理-2" class="headerlink" title="实现原理"></a>实现原理</h4><ul>
+<li>多个服务共享数据库链接（新增应用用于串行化执行多个微服务对于数据库的操作）</li>
+<li>使用消息队列</li>
+<li>分布式锁</li>
+</ul>
+<h4 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a>应用场景</h4><p>目前软总线服务上多个微服务同时读写设备表。</p>
+<h3 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a>分布式事务</h3><ul>
+<li>思考题：以下流程存在什么问题？</li>
+</ul>
+<p><img src="https://blog-1251737177.cos.ap-guangzhou.myqcloud.com/20220826161614.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">场景事例</span><br><span class="line"></span><br><span class="line">Fenix&#39;s Bookstore 是一个在线书店。每当一本书被成功售出时，需要确保以下三件事情被正确地处理：</span><br><span class="line"></span><br><span class="line">用户的账号扣减相应的商品款项。</span><br><span class="line">商品仓库中扣减库存，将商品标识为待配送状态。</span><br><span class="line">商家的账号增加相应的商品款项。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://blog-1251737177.cos.ap-guangzhou.myqcloud.com/20220826162159.png" alt=""></p>
+<h4 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h4><p>多个服务同时访问多个数据源的事务处理机制，目前仅支持柔性事务。</p>
+<ul>
+<li>刚性事务：达到实现强一致性的事务（目前无法实现，具体参考：<a href="https://www.dtm.pub/practice/theory.html#%E6%97%A0%E6%B3%95%E5%BC%BA%E4%B8%80%E8%87%B4" target="_blank" rel="noopener">https://www.dtm.pub/practice/theory.html#%E6%97%A0%E6%B3%95%E5%BC%BA%E4%B8%80%E8%87%B4</a>）</li>
+<li>柔性事务：达到实现最终一致性的事务</li>
+</ul>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><ul>
+<li>最大努力交付/通知（接收方保证一致性）</li>
+<li>本地/事务消息表消息表（消息队列保证）</li>
+<li>AT</li>
+<li>XA</li>
+<li>二阶段消息</li>
+<li>Workflow</li>
+<li>SAGA</li>
+<li>TCC</li>
+</ul>
+<h5 id="本地消息表"><a href="#本地消息表" class="headerlink" title="本地消息表"></a>本地消息表</h5><p><img src="https://dtm.pub/assets/local_msg_table.089f1fd3.jpg" alt="enter image description here"></p>
+<h5 id="SAGA"><a href="#SAGA" class="headerlink" title="SAGA"></a>SAGA</h5><p><img src="https://dtm.pub/assets/saga_normal.a2849672.jpg" alt="enter image description here"></p>
+<h5 id="TCC"><a href="#TCC" class="headerlink" title="TCC"></a>TCC</h5><p><img src="https://dtm.pub/assets/tcc_normal.dea14fb3.jpg" alt="enter image description here"></p>
+<h5 id="XA-1"><a href="#XA-1" class="headerlink" title="XA"></a>XA</h5><p><img src="https://dtm.pub/assets/xa_normal.5a0ce600.jpg" alt="enter image description here"></p>
+<h5 id="二阶消息"><a href="#二阶消息" class="headerlink" title="二阶消息"></a>二阶消息</h5><p><img src="https://dtm.pub/assets/msg_normal.25a4cb15.jpg" alt="enter image description here"></p>
+<h4 id="如何选择合适的模式"><a href="#如何选择合适的模式" class="headerlink" title="如何选择合适的模式"></a>如何选择合适的模式</h4><ul>
+<li>二阶段消息模式: 适合不需要回滚的场景</li>
+<li>saga模式: 适合需要回滚的场景</li>
+<li>tcc事务模式: 适合一致性要求较高的场景</li>
+<li>xa事务模式: 适合并发要求不高，没有数据库行锁争抢的场景</li>
+</ul>
+<h4 id="应用场景-2"><a href="#应用场景-2" class="headerlink" title="应用场景"></a>应用场景</h4><p><a href="https://dtm.pub/app/intro.html" target="_blank" rel="noopener">https://dtm.pub/app/intro.html</a></p>
+<h4 id="NPC问题"><a href="#NPC问题" class="headerlink" title="NPC问题"></a>NPC问题</h4><h5 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h5><ul>
+<li>网络延迟</li>
+<li>进程暂停</li>
+<li>时钟漂移</li>
+</ul>
+<h5 id="异常分类"><a href="#异常分类" class="headerlink" title="异常分类"></a>异常分类</h5><ul>
+<li>空补偿</li>
+<li>悬挂</li>
+<li>幂等</li>
+</ul>
+<p><img src="https://www.dtm.pub/assets/exception.4254ab59.jpg" alt="enter image description here"></p>
+<h5 id="解决方案-1"><a href="#解决方案-1" class="headerlink" title="解决方案"></a>解决方案</h5><p><a href="https://www.dtm.pub/practice/barrier.html" target="_blank" rel="noopener">https://www.dtm.pub/practice/barrier.html</a></p>
+<h5 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h5><p><a href="https://github.com/nivin-studio/go-zero-mall" target="_blank" rel="noopener">https://github.com/nivin-studio/go-zero-mall</a></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p>凤凰架构：<a href="http://icyfenix.cn/architect-perspective/general-architecture/transaction/" target="_blank" rel="noopener">http://icyfenix.cn/architect-perspective/general-architecture/transaction/</a><br>数据库系统原理：<a href="https://github.com/CyC2018/CS-Notes/blob/master/notes/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86.md#%E4%B8%80%E4%BA%8B%E5%8A%A1" target="_blank" rel="noopener">https://github.com/CyC2018/CS-Notes/blob/master/notes/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86.md#%E4%B8%80%E4%BA%8B%E5%8A%A1</a><br>DTM官网：<a href="https://www.dtm.pub/" target="_blank" rel="noopener">https://www.dtm.pub/</a></p>
+
+      </div>
+      
+      
+        <br>
+        
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-08-26T08:54:09+00:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>更新于 2022年8月26日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>学习笔记</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>分布式事务</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fengyuwsuong.cn/2022/08/26/%E4%BB%8E%E4%BA%8B%E5%8A%A1%E5%88%B0%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/&title=从事务到分布式事务 | 风雨雾凇&pics=https://pic.fengyuwusong.cn/avatar.png&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fengyuwsuong.cn/2022/08/26/%E4%BB%8E%E4%BA%8B%E5%8A%A1%E5%88%B0%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/&title=从事务到分布式事务 | 风雨雾凇&pics=https://pic.fengyuwusong.cn/avatar.png&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://fengyuwsuong.cn/2022/08/26/%E4%BB%8E%E4%BA%8B%E5%8A%A1%E5%88%B0%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/&title=从事务到分布式事务 | 风雨雾凇&pics=https://pic.fengyuwusong.cn/avatar.png&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+      
+      
+          <div class="prev-next">
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/2022/05/18/Golang%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" rel="prev" title="Golang垃圾回收">
+                                  
+                                      Golang垃圾回收
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/go/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> go</a> <a class="tag" href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 垃圾回收</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+          </div>
+      
+    </section>
+  </article>
+
+
+
+  <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box comments">
+    <section class="article typo">
+      <h4><i class="fas fa-comments fa-fw" aria-hidden="true"></i>&nbsp;评论</h4>
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-spinner fa-spin fa-fw"></i>
+          </div>
+        </section>
+      
+    </section>
+  </article>
+
+
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '从事务到分布式事务',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+      
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget toc-wrapper'>
+    
+<header class='pure'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content pure'>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#前置知识"><span class="toc-text">前置知识</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CAP"><span class="toc-text">CAP</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#思考题：对CAP的理解（为什么只能满足两个？）"><span class="toc-text">思考题：对CAP的理解（为什么只能满足两个？）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#现有系统符合的种类"><span class="toc-text">现有系统符合的种类</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BASE"><span class="toc-text">BASE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据库事务定义"><span class="toc-text">数据库事务定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ACID"><span class="toc-text">ACID</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#思考题：如何实现原子性和持久性的回滚和丢失恢复？"><span class="toc-text">思考题：如何实现原子性和持久性的回滚和丢失恢复？</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#并发一致性问题"><span class="toc-text">并发一致性问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#事务隔离级别"><span class="toc-text">事务隔离级别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#不同隔离级别实现原理"><span class="toc-text">不同隔离级别实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#MVCC"><span class="toc-text">MVCC</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Next-Key-Locks"><span class="toc-text">Next-Key Locks</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#封锁"><span class="toc-text">封锁</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#本地事务"><span class="toc-text">本地事务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#实现原理"><span class="toc-text">实现原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#应用场景"><span class="toc-text">应用场景</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#全局事务"><span class="toc-text">全局事务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#定义"><span class="toc-text">定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实现原理-1"><span class="toc-text">实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#XA"><span class="toc-text">XA</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2PC"><span class="toc-text">2PC</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3PC"><span class="toc-text">3PC</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#共享事务"><span class="toc-text">共享事务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#定义-1"><span class="toc-text">定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#实现原理-2"><span class="toc-text">实现原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#应用场景-1"><span class="toc-text">应用场景</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分布式事务"><span class="toc-text">分布式事务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#定义-2"><span class="toc-text">定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#解决方案"><span class="toc-text">解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#本地消息表"><span class="toc-text">本地消息表</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#SAGA"><span class="toc-text">SAGA</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#TCC"><span class="toc-text">TCC</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#XA-1"><span class="toc-text">XA</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#二阶消息"><span class="toc-text">二阶消息</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何选择合适的模式"><span class="toc-text">如何选择合适的模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#应用场景-2"><span class="toc-text">应用场景</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NPC问题"><span class="toc-text">NPC问题</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#定义-3"><span class="toc-text">定义</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#异常分类"><span class="toc-text">异常分类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#解决方案-1"><span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#最佳实践"><span class="toc-text">最佳实践</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="mailto:602766695@qq.com"
+            class="social fas fa-envelope flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/fengyuwusong"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://music.163.com/#/user/home?id=63035382"
+            class="social fas fa-headphones-alt flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>风雨雾凇 © 2017 - 2021 | <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备16018321号-2</a><br/>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+  <div>
+    本站使用
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    作为主题
+    
+      ，
+      总访问量为
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      次
+    
+    。
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<!--增加百度seo自动提交-->
+<script type="text/javascript" src="/js/bai-seo.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+  
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery-backstretch/2.1.18/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('.cover') {
+          $('.cover').backstretch(
+          ["https://pic.fengyuwusong.cn/IMG_3742.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://pic.fengyuwusong.cn/IMG_3742.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+    
+      
+<script src="/js/volantis.js"></script>
+
+    
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var notify = 'true' == true;
+  var verify = 'true' == true;
+  var valine = new Valine();
+  valine.init({
+    el: '#valine_container',
+    notify: notify,
+    verify: verify,
+    guest_info: guest_info,
+    
+    appId: "4ostjPGgQz6dtae97OShmQBj-gzGzoHsz",
+    appKey: "vEFK2xQiAC3hKlgcL3wY0HGI",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'mp',
+    lang:'zh-cn',
+    highlight:'true'
+  })
+  </script>
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="/js/search.js"></script>
+
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

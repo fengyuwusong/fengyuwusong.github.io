@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>机器学习入门(1)-pandas库的使用 | 风雨雾凇</title>
+  
+  <meta name="keywords" content="博客, 风雨雾凇">
+  
+  
+
+  
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+
+  
+  <link rel="shortcut icon" type='image/x-icon' href="https://pic.fengyuwusong.cn/avatar.png">
+  
+
+  
+    
+<link rel="stylesheet" href="/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  
+  
+  <div class="cover-wrapper">
+    <cover class='cover post half'>
+      
+        
+  <h1 class='title'>风雨雾凇</h1>
+
+
+  <div class="m_search">
+    <form name="searchform" class="form u-search-form">
+      <input type="text" class="input u-search-input" placeholder="" />
+      <i class="icon fas fa-search fa-fw"></i>
+    </form>
+  </div>
+
+<div class='menu navgation'>
+  <ul class='h-list'>
+    
+      
+        <li>
+          <a class="nav home" href="/archives/"
+            
+              rel="nofollow"
+            
+            
+            id="archives">
+            <i class='fas fa-archive fa-fw'></i>&nbsp;归档
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/categories/"
+            
+              rel="nofollow"
+            
+            
+            id="categories">
+            <i class='fas fa-folder-open fa-fw'></i>&nbsp;分类
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/tags/"
+            
+              rel="nofollow"
+            
+            
+            id="tags">
+            <i class='fas fa-hashtag fa-fw'></i>&nbsp;标签
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/about/"
+            
+              rel="nofollow"
+            
+            
+            id="about">
+            <i class='fas fa-info-circle fa-fw'></i>&nbsp;关于
+          </a>
+        </li>
+      
+    
+  </ul>
+</div>
+
+      
+    </cover>
+    <header class="l_header pure">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="pure"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          风雨雾凇
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/"
+                  
+                  
+                  id="home">
+									<i class='fas fa-grin fa-fw'></i>&nbsp;博客
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/categories/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="categories">
+									<i class='fas fa-folder-open fa-fw'></i>&nbsp;分类
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/tags/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="tags">
+									<i class='fas fa-hashtag fa-fw'></i>&nbsp;标签
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/archives/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="archives">
+									<i class='fas fa-archive fa-fw'></i>&nbsp;归档
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/"
+                
+                
+                id="home">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;近期文章
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/archives/"
+                
+                  rel="nofollow"
+                
+                
+                id="archives">
+								<i class='fas fa-archive fa-fw'></i>&nbsp;文章归档
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/projects/"
+                
+                
+                id="projects">
+								<i class='fas fa-code-branch fa-fw'></i>&nbsp;开源项目
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/about/"
+                
+                  rel="nofollow"
+                
+                
+                id="about">
+								<i class='fas fa-info-circle fa-fw'></i>&nbsp;关于小站
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+    
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2018/12/09/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8(1)-pandas%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8/">
+        机器学习入门(1)-pandas库的使用
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    
+      <a href="https://fengyuwsuong.cn" rel="nofollow">
+        
+          <img src="https://pic.fengyuwusong.cn/avatar.png">
+        
+        <p>风雨雾凇</p>
+      </a>
+    
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2018-12-09</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>机器学习</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item wordcount">
+      <a class='notlink'>
+        <i class="fas fa-keyboard" aria-hidden="true"></i>
+        <p>字数统计:</p>
+        <p>1.8k字</p>
+      </a>
+    </div>
+    <div class="new-meta-item readtime">
+      <a class='notlink'>
+        <i class="fas fa-hourglass-half" aria-hidden="true"></i>
+        <p>阅读时长≈</p>
+        <p>8分</p>
+      </a>
+    </div>
+  
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <p><a href="http://pandas.pydata.org/" target="_blank" rel="noopener"><em>pandas</em></a> 是一种列存数据分析 API。它是用于处理和分析输入数据的强大工具，很多机器学习框架都支持将 <em>pandas</em> 数据结构作为输入。</p>
+<p>官方文档：<a href="http://pandas.pydata.org/pandas-docs/stable/index.html" target="_blank" rel="noopener">点这里~</a></p>
+<p><strong><em>该系列机器学习是实践 <a href="https://developers.google.cn/machine-learning/crash-course/" target="_blank" rel="noopener">谷歌机器学习教程</a>做的笔记。</em></strong></p>
+<a id="more"></a>
+
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>使用pip即可进行安装。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pandas</span><br></pre></td></tr></table></figure>
+
+<h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><h4 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="keyword">import</span> pandas</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    print(pandas.__version__)</span><br></pre></td></tr></table></figure>
+
+<p>输出：<strong>0.23.4</strong></p>
+<h4 id="基本数据结构"><a href="#基本数据结构" class="headerlink" title="基本数据结构"></a>基本数据结构</h4><ul>
+<li><strong>DataFrame</strong>: 关系型数据表格，包含多个行和已命名的列。（及类似关系型数据库或excel表）</li>
+<li><strong>Series</strong>: 单一列。<em>DataFrame</em> 中包含一个或多个 <em>Series<em>，每个</em>Series</em> 均有一个名称。</li>
+</ul>
+<h4 id="创建Series、DataFrame对象"><a href="#创建Series、DataFrame对象" class="headerlink" title="创建Series、DataFrame对象"></a>创建Series、DataFrame对象</h4><ul>
+<li>以list、dict 的方式创建：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">city_names = pd.Series([<span class="string">'San Francisco'</span>, <span class="string">'San Jose'</span>, <span class="string">'Sacramento'</span>])</span><br><span class="line">population = pd.Series([<span class="number">852469</span>, <span class="number">1015785</span>, <span class="number">485199</span>])</span><br><span class="line"><span class="comment"># 将两个series对象整合到dataframe中，如两个series长度不一致则会以NA/NaN填充</span></span><br><span class="line">pd.DataFrame(&#123;<span class="string">'city_name'</span>: city_names, <span class="string">'population'</span>: population&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>直接读取文件</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 方式2 直接读取文件</span></span><br><span class="line">california_housing_dataframe = pd.read_csv(<span class="string">"https://download.mlcc.google.cn/mledu-datasets/california_housing_train.csv"</span>, sep=<span class="string">","</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="访问数据"><a href="#访问数据" class="headerlink" title="访问数据"></a>访问数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    print(pd.__version__)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 构建series、dataframe对象</span></span><br><span class="line">    <span class="comment"># 方式1 以list，dict的方式构建</span></span><br><span class="line">    city_names = pd.Series([<span class="string">'San Francisco'</span>, <span class="string">'San Jose'</span>, <span class="string">'Sacramento'</span>])</span><br><span class="line">    population = pd.Series([<span class="number">852469</span>, <span class="number">1015785</span>, <span class="number">485199</span>])</span><br><span class="line">    <span class="comment"># 将两个series对象整合到dataframe中，如两个series长度不一致则会以NA/NaN填充</span></span><br><span class="line">    california_housing_dataframe = pd.DataFrame(&#123;<span class="string">'city_name'</span>: city_names, <span class="string">'population'</span>: population&#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 方式2 直接读取文件</span></span><br><span class="line">    <span class="comment"># california_housing_dataframe = pd.read_csv("https://download.mlcc.google.cn/mledu-datasets/california_housing_train.csv", sep=",")</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">"========显示统计数据========"</span>)</span><br><span class="line">    print(california_housing_dataframe.describe())</span><br><span class="line"></span><br><span class="line">    print(<span class="string">"========显示前几个记录========"</span>)</span><br><span class="line">    print(california_housing_dataframe.head())</span><br><span class="line"></span><br><span class="line">    print(<span class="string">"========显示中值分布========"</span>)</span><br><span class="line">    print(california_housing_dataframe.hist(<span class="string">'population'</span>))</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">0.23.4</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;显示统计数据&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">         population</span><br><span class="line">count  3.000000e+00</span><br><span class="line">mean   7.844843e+05</span><br><span class="line">std    2.717477e+05</span><br><span class="line">min    4.851990e+05</span><br><span class="line">25%    6.688340e+05</span><br><span class="line">50%    8.524690e+05</span><br><span class="line">75%    9.341270e+05</span><br><span class="line">max    1.015785e+06</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;显示前几个记录&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">       city_name  population</span><br><span class="line">0  San Francisco      852469</span><br><span class="line">1       San Jose     1015785</span><br><span class="line">2     Sacramento      485199</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;显示中值分布&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">[[&lt;matplotlib.axes._subplots.AxesSubplot object at 0x000000000594CBA8&gt;]]</span><br></pre></td></tr></table></figure>
+
+<h2 id="访问数据-1"><a href="#访问数据-1" class="headerlink" title="访问数据"></a>访问数据</h2><p>直接以 <strong><em>dict/list</em></strong> 的方式 访问数据即可。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">access_data</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    访问数据</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    city_names = [<span class="string">'San Francisco'</span>, <span class="string">'San Jose'</span>, <span class="string">'Sacramento'</span>]</span><br><span class="line">    population = [<span class="number">852469</span>, <span class="number">1015785</span>, <span class="number">485199</span>]</span><br><span class="line">    cities = pd.DataFrame(&#123;<span class="string">'City name'</span>: city_names, <span class="string">'Population'</span>: population&#125;)</span><br><span class="line">    <span class="comment"># 直接以list/dict的操作即可</span></span><br><span class="line">    print(type(cities[<span class="string">'City name'</span>]))</span><br><span class="line">    print(cities[<span class="string">'City name'</span>])</span><br><span class="line"></span><br><span class="line">    print(type(cities[<span class="string">"City name"</span>][<span class="number">1</span>]))</span><br><span class="line">    print(cities[<span class="string">"City name"</span>][<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;class &#39;pandas.core.series.Series&#39;&gt;</span><br><span class="line">0    San Francisco</span><br><span class="line">1         San Jose</span><br><span class="line">2       Sacramento</span><br><span class="line">Name: City name, dtype: object</span><br><span class="line">&lt;class &#39;str&#39;&gt;</span><br><span class="line">San Jose</span><br></pre></td></tr></table></figure>
+
+<h2 id="操作数据"><a href="#操作数据" class="headerlink" title="操作数据"></a>操作数据</h2><p>可直接对 <strong><em>Series/DataFrame</em></strong> 运算。或应用<strong><em>Series.apply()</em></strong>方法，例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">operate_data</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    操作数据</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    city_names = pd.Series([<span class="string">'San Francisco'</span>, <span class="string">'San Jose'</span>, <span class="string">'Sacramento'</span>])</span><br><span class="line">    population = pd.Series([<span class="number">852469</span>, <span class="number">1015785</span>, <span class="number">485199</span>])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 可直接向Series应用python基本运算命令</span></span><br><span class="line">    print(population / <span class="number">1000</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 可应用于Numpy做参数运算</span></span><br><span class="line">    print(np.log(population))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Series.apply函数 参数 接受lambda函数</span></span><br><span class="line">    <span class="comment"># 例如 创建一个population超过100000的新Series</span></span><br><span class="line">    new_series = population.apply(<span class="keyword">lambda</span> val: val &gt; <span class="number">100000</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 修改DataFrames对象</span></span><br><span class="line">    cities = dict()</span><br><span class="line">    cities[<span class="string">'Population'</span>] = population</span><br><span class="line">    cities[<span class="string">'Area square miles'</span>] = pd.Series([<span class="number">46.87</span>, <span class="number">176.53</span>, <span class="number">97.92</span>])</span><br><span class="line">    cities[<span class="string">'Population density'</span>] = cities[<span class="string">'Population'</span>] / cities[<span class="string">'Area square miles'</span>]</span><br><span class="line">    print(cities)</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">0     852.469</span><br><span class="line">1    1015.785</span><br><span class="line">2     485.199</span><br><span class="line">dtype: float64</span><br><span class="line">0    13.655892</span><br><span class="line">1    13.831172</span><br><span class="line">2    13.092314</span><br><span class="line">dtype: float64</span><br><span class="line">&#123;&#39;Population&#39;: 0     852469</span><br><span class="line">1    1015785</span><br><span class="line">2     485199</span><br><span class="line">dtype: int64, &#39;Area square miles&#39;: 0     46.87</span><br><span class="line">1    176.53</span><br><span class="line">2     97.92</span><br><span class="line">dtype: float64, &#39;Population density&#39;: 0    18187.945381</span><br><span class="line">1     5754.177760</span><br><span class="line">2     4955.055147</span><br><span class="line">dtype: float64&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><p><strong><em>Series</em></strong> 和 <strong><em>DataFrame</em></strong> 对象也定义了 <strong><em>index</em></strong> 属性，该属性会向每个 <strong><em>Series</em></strong> 项或 <strong><em>DataFrame</em></strong> 行赋一个标识符值。</p>
+<p>例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">data_index</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    数据索引demo</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># 模拟创建cities对象</span></span><br><span class="line">    temp = dict()</span><br><span class="line">    temp[<span class="string">'Population'</span>] = pd.Series([<span class="number">852469</span>, <span class="number">1015785</span>, <span class="number">485199</span>])</span><br><span class="line">    temp[<span class="string">'Area square miles'</span>] = pd.Series([<span class="number">46.87</span>, <span class="number">176.53</span>, <span class="number">97.92</span>])</span><br><span class="line">    temp[<span class="string">'Name'</span>] = pd.Series([<span class="string">'San Francisco'</span>, <span class="string">'San Jose'</span>, <span class="string">'Sacramento'</span>])</span><br><span class="line">    cities = pd.DataFrame(temp)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 默认情况下，在构造时，pandas 会赋可反映源数据顺序的索引值。索引值在创建后是稳定的</span></span><br><span class="line">    <span class="comment"># 也就是说，它们不会因为数据重新排序而发生改变。</span></span><br><span class="line">    print(cities[<span class="string">'Name'</span>].index)</span><br><span class="line">    print(cities.index)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 可使用reindex方法手动重新排序</span></span><br><span class="line">    print(cities.reindex([<span class="number">2</span>, <span class="number">0</span>, <span class="number">1</span>]))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 利用numpy random.permutation方法重新随机排序</span></span><br><span class="line">    print(cities.reindex(np.random.permutation(cities.index)))</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">RangeIndex(start&#x3D;0, stop&#x3D;3, step&#x3D;1)</span><br><span class="line">RangeIndex(start&#x3D;0, stop&#x3D;3, step&#x3D;1)</span><br><span class="line">   Population  Area square miles           Name</span><br><span class="line">2      485199              97.92     Sacramento</span><br><span class="line">0      852469              46.87  San Francisco</span><br><span class="line">1     1015785             176.53       San Jose</span><br><span class="line">   Population  Area square miles           Name</span><br><span class="line">2      485199              97.92     Sacramento</span><br><span class="line">1     1015785             176.53       San Jose</span><br><span class="line">0      852469              46.87  San Francisco</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="练习1"><a href="#练习1" class="headerlink" title="练习1"></a>练习1</h2><p>通过添加一个新的布尔值列（当且仅当以下<em>两项</em>均为 True 时为 True）修改 <code>cities</code> 表格：</p>
+<ul>
+<li>城市以圣人命名。</li>
+<li>城市面积大于 50 平方英里。</li>
+</ul>
+<p><strong>注意：</strong>布尔值 <code>Series</code> 是使用“按位”而非传统布尔值“运算符”组合的。例如，执行<em>逻辑与</em>时，应使用 <code>&amp;</code>，而不是 <code>and</code>。</p>
+<p><strong>提示：</strong>“San” 在西班牙语中意为 “saint”。</p>
+<p>答案：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">exe_1</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    练习 1</span></span><br><span class="line"><span class="string">    通过添加一个新的布尔值列（当且仅当以下两项均为 True 时为 True）修改 cities 表格：</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    城市以San命名。</span></span><br><span class="line"><span class="string">    城市面积大于 50 平方英里。</span></span><br><span class="line"><span class="string">    注意：布尔值 Series 是使用“按位”而非传统布尔值“运算符”组合的。例如，执行逻辑与时，应使用 &amp;，而不是 and。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    提示："San" 在西班牙语中意为 "saint"。</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># 模拟创建cities对象</span></span><br><span class="line">    temp = dict()</span><br><span class="line">    temp[<span class="string">'Population'</span>] = pd.Series([<span class="number">852469</span>, <span class="number">1015785</span>, <span class="number">485199</span>])</span><br><span class="line">    temp[<span class="string">'Area square miles'</span>] = pd.Series([<span class="number">46.87</span>, <span class="number">176.53</span>, <span class="number">97.92</span>])</span><br><span class="line">    temp[<span class="string">'Name'</span>] = pd.Series([<span class="string">'San Francisco'</span>, <span class="string">'San Jose'</span>, <span class="string">'Sacramento'</span>])</span><br><span class="line">    cities = pd.DataFrame(temp)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 使用apply函数创建该列</span></span><br><span class="line">    cities[<span class="string">"wide and with san"</span>] = cities[<span class="string">'Name'</span>].apply(<span class="keyword">lambda</span> name: name.startswith(<span class="string">'San'</span>)) &amp; (cities[<span class="string">'Area square miles'</span>] &gt; <span class="number">50</span>)</span><br><span class="line">    print(cities)</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意点</strong>： (cities[‘Area square miles’] &gt; 50) 必须要用括号包起来，不然判别就变成 <em>cities[‘Name’].apply(lambda name: name.startswith(‘San’)) &amp; cities[‘Area square miles’] &gt; 50</em> 导致错误。</p>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">   Population        ...          wide and with san</span><br><span class="line">0      852469        ...                      False</span><br><span class="line">1     1015785        ...                       True</span><br><span class="line">2      485199        ...                      False</span><br><span class="line"></span><br><span class="line">[3 rows x 4 columns]</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="练习-2"><a href="#练习-2" class="headerlink" title="练习 2"></a>练习 2</h2><p><code>reindex</code> 方法允许使用未包含在原始 <code>DataFrame</code> 索引值中的索引值。请试一下，看看如果使用此类值会发生什么！您认为允许此类值的原因是什么？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">exe_2</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    练习 2</span></span><br><span class="line"><span class="string">    reindex 方法允许使用未包含在原始 DataFrame 索引值中的索引值。</span></span><br><span class="line"><span class="string">    请试一下，看看如果使用此类值会发生什么！您认为允许此类值的原因是什么？</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># 模拟创建cities对象</span></span><br><span class="line">    temp = dict()</span><br><span class="line">    temp[<span class="string">'Population'</span>] = pd.Series([<span class="number">852469</span>, <span class="number">1015785</span>, <span class="number">485199</span>])</span><br><span class="line">    temp[<span class="string">'Area square miles'</span>] = pd.Series([<span class="number">46.87</span>, <span class="number">176.53</span>, <span class="number">97.92</span>])</span><br><span class="line">    temp[<span class="string">'Name'</span>] = pd.Series([<span class="string">'San Francisco'</span>, <span class="string">'San Jose'</span>, <span class="string">'Sacramento'</span>])</span><br><span class="line">    cities = pd.DataFrame(temp)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 目前只有三组数据索引: 0 1 2，假设操作索引 2 以上的数据</span></span><br><span class="line">    print(cities.reindex([<span class="number">4</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">3</span>]))</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   Population  Area square miles           Name</span><br><span class="line">4         NaN                NaN            NaN</span><br><span class="line">0    852469.0              46.87  San Francisco</span><br><span class="line">1   1015785.0             176.53       San Jose</span><br><span class="line">3         NaN                NaN            NaN</span><br></pre></td></tr></table></figure>
+
+<p>解释：</p>
+<p>如果您的 <code>reindex</code> 输入数组包含原始 <code>DataFrame</code> 索引值中没有的值，<code>reindex</code> 会为此类“丢失的”索引添加新行，并在所有对应列中填充 <code>NaN</code> 值。</p>
+<p>这种行为是可取的，因为索引通常是从实际数据中提取的字符串（请参阅 <a href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.reindex.html" target="_blank" rel="noopener"><em>pandas</em> reindex 文档</a>，查看索引值是浏览器名称的示例）。</p>
+<p>在这种情况下，如果允许出现“丢失的”索引，您将可以轻松使用外部列表重建索引，因为您不必担心会将输入清理掉。</p>
+
+      </div>
+      
+      
+        <br>
+        
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2022-08-26T08:54:09+00:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>更新于 2022年8月26日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>学习笔记</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/pandas/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>pandas</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>机器学习</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=https://fengyuwsuong.cn/2018/12/09/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8(1)-pandas%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8/&title=机器学习入门(1)-pandas库的使用 | 风雨雾凇&pics=https://pic.fengyuwusong.cn/avatar.png&summary=pandas 是一种列存数据分析 API。它是用于处理和分析输入数据的强大工具，很多机器学习框架都支持将 pandas 数据结构作为输入。
+官方文档：点这里~
+该系列机器学习是实践 谷歌机器学习教程做的笔记。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://fengyuwsuong.cn/2018/12/09/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8(1)-pandas%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8/&title=机器学习入门(1)-pandas库的使用 | 风雨雾凇&pics=https://pic.fengyuwusong.cn/avatar.png&summary=pandas 是一种列存数据分析 API。它是用于处理和分析输入数据的强大工具，很多机器学习框架都支持将 pandas 数据结构作为输入。
+官方文档：点这里~
+该系列机器学习是实践 谷歌机器学习教程做的笔记。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=https://fengyuwsuong.cn/2018/12/09/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8(1)-pandas%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8/&title=机器学习入门(1)-pandas库的使用 | 风雨雾凇&pics=https://pic.fengyuwusong.cn/avatar.png&summary=pandas 是一种列存数据分析 API。它是用于处理和分析输入数据的强大工具，很多机器学习框架都支持将 pandas 数据结构作为输入。
+官方文档：点这里~
+该系列机器学习是实践 谷歌机器学习教程做的笔记。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+      
+      
+          <div class="prev-next">
+              
+                  <section class="prev">
+                      <span class="art-item-left">
+                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
+                          <h4>
+                              <a href="/2018/12/09/%E6%AF%8F%E6%97%A5leetcode-%E6%97%A0%E9%87%8D%E5%A4%8D%E5%AD%97%E7%AC%A6%E7%9A%84%E6%9C%80%E9%95%BF%E5%AD%90%E4%B8%B2/" rel="prev" title="每日leetcode-无重复字符的最长子串">
+                                
+                                    每日leetcode-无重复字符的最长子串
+                                
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 学习笔记</a> <a class="tag" href="/tags/%E9%9D%A2%E8%AF%95/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 面试</a> <a class="tag" href="/tags/leetcode/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> leetcode</a> <a class="tag" href="/tags/%E6%AF%8F%E6%97%A5%E8%AE%AD%E7%BB%83/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 每日训练</a> <a class="tag" href="/tags/%E7%AE%97%E6%B3%95/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 算法</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/2018/12/09/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" rel="prev" title="第一篇博客">
+                                  
+                                      第一篇博客
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/%E7%94%9F%E6%B4%BB/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 生活</a> <a class="tag" href="/tags/%E9%9A%8F%E7%AC%94/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 随笔</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+          </div>
+      
+    </section>
+  </article>
+
+
+
+  <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box comments">
+    <section class="article typo">
+      <h4><i class="fas fa-comments fa-fw" aria-hidden="true"></i>&nbsp;评论</h4>
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-spinner fa-spin fa-fw"></i>
+          </div>
+        </section>
+      
+    </section>
+  </article>
+
+
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '机器学习入门(1)-pandas库的使用',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+      
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget toc-wrapper'>
+    
+<header class='pure'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content pure'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本用法"><span class="toc-text">基本用法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#导入"><span class="toc-text">导入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#基本数据结构"><span class="toc-text">基本数据结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建Series、DataFrame对象"><span class="toc-text">创建Series、DataFrame对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#访问数据"><span class="toc-text">访问数据</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#访问数据-1"><span class="toc-text">访问数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作数据"><span class="toc-text">操作数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引"><span class="toc-text">索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#练习1"><span class="toc-text">练习1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#练习-2"><span class="toc-text">练习 2</span></a></li></ol>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="mailto:602766695@qq.com"
+            class="social fas fa-envelope flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/fengyuwusong"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://music.163.com/#/user/home?id=63035382"
+            class="social fas fa-headphones-alt flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>风雨雾凇 © 2017 - 2021 | <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备16018321号-2</a><br/>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+  <div>
+    本站使用
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    作为主题
+    
+      ，
+      总访问量为
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      次
+    
+    。
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<!--增加百度seo自动提交-->
+<script type="text/javascript" src="/js/bai-seo.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+  
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery-backstretch/2.1.18/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('.cover') {
+          $('.cover').backstretch(
+          ["https://pic.fengyuwusong.cn/IMG_3742.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://pic.fengyuwusong.cn/IMG_3742.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+    
+      
+<script src="/js/volantis.js"></script>
+
+    
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var notify = 'true' == true;
+  var verify = 'true' == true;
+  var valine = new Valine();
+  valine.init({
+    el: '#valine_container',
+    notify: notify,
+    verify: verify,
+    guest_info: guest_info,
+    
+    appId: "4ostjPGgQz6dtae97OShmQBj-gzGzoHsz",
+    appKey: "vEFK2xQiAC3hKlgcL3wY0HGI",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'mp',
+    lang:'zh-cn',
+    highlight:'true'
+  })
+  </script>
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="/js/search.js"></script>
+
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
